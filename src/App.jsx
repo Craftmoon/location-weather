@@ -6,10 +6,10 @@ import WeatherInfo from "./components/weatherInfo";
 function App() {
   return (
     <div className="App">
-      <section class="section">
-        <div class="container">
-          <h1 class="title">Hello World!</h1>
-          <p class="subtitle">Weather Forecast by Location.</p>
+      <section className="section">
+        <div className="container">
+          <h1 className="title">Hello World!</h1>
+          <p className="subtitle">Weather Forecast by Location.</p>
         </div>
       </section>
       <section className="section">
