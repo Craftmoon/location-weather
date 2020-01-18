@@ -17,7 +17,7 @@ const Map = () => {
       <GoogleMap
         defaultZoom={10}
         defaultCenter={{ lat: -27.59691, lng: -48.54958 }}
-        center={{ lat: latitude, lng: longitude }}
+        center={{ lat: latitude || -27.59691, lng: longitude || -48.54958 }}
       >
         {
           <Marker
