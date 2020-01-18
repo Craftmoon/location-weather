@@ -6,11 +6,21 @@ import {
   withGoogleMap,
   Marker
 } from "react-google-maps";
+
 import styles from "./map.module.css";
 
 const Map = () => {
+  const {
+    SearchBox
+  } = require("react-google-maps/lib/components/places/SearchBox");
+  const google = window.google;
   const [latitude, longitude, userAddress] = useCoordinates({});
   const googleMapAPIKey = "AIzaSyBX1DZz2mY9XjFTFfPwhdZArN-AqQlt52E";
+  const refs = {};
+
+  const onPlacesChanged = () => {
+    console.log("places changed");
+  };
 
   function TestMap() {
     return (
@@ -18,7 +28,35 @@ const Map = () => {
         defaultZoom={10}
         defaultCenter={{ lat: -27.59691, lng: -48.54958 }}
         center={{ lat: latitude || -27.59691, lng: longitude || -48.54958 }}
+        defaultOptions={{
+          mapTypeControl: false
+        }}
       >
+        <SearchBox
+          defaultBounds={null}
+          bounds={null}
+          controlPosition={1}
+          onPlacesChanged={onPlacesChanged}
+        >
+          <input
+            type="text"
+            placeholder="Search on Google Maps"
+            style={{
+              boxSizing: `border-box`,
+              border: `1px solid transparent`,
+              width: `300px`,
+              height: `32px`,
+              marginTop: `15px`,
+              marginLeft: `15px`,
+              padding: `0 12px`,
+              borderRadius: `3px`,
+              boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
+              fontSize: `14px`,
+              outline: `none`,
+              textOverflow: `ellipses`
+            }}
+          />
+        </SearchBox>
         {
           <Marker
             position={{ lat: latitude, lng: longitude }}
