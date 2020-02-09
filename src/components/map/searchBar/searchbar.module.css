@@ -1,0 +1,12 @@
+.searchBar {
+  font-size: 14px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  width: 300px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 3px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  outline: none;
+  text-overflow: ellipsis;
+}
