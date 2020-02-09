@@ -1,9 +1,6 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
-export const useCoordinates = () => {
-  const [position, setPosition] = useState({});
-  const [address, setAddress] = useState();
-
+export const useGetUserCoordinates = ({ setCoordinates, setAddress }) => {
   const googleMapAPIKey = "AIzaSyBX1DZz2mY9XjFTFfPwhdZArN-AqQlt52E";
 
   const getLocation = () => {
@@ -16,10 +13,11 @@ export const useCoordinates = () => {
   };
 
   const showPosition = ({ coords }) => {
-    setPosition({
-      latitude: coords.latitude,
-      longitude: coords.longitude
+    setCoordinates({
+      lat: coords.latitude,
+      lng: coords.longitude
     });
+
     reverseGeocodeCoordinates(coords.latitude, coords.longitude);
   };
 
@@ -52,6 +50,4 @@ export const useCoordinates = () => {
   useEffect(() => {
     getLocation();
   }, []);
-
-  return [position.latitude, position.longitude, address];
 };
