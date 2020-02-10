@@ -3,22 +3,34 @@ import PlacesAutocompĺete, {
   geocodeByAddress,
   getLatLng
 } from "react-places-autocomplete";
+import { useSelector, useDispatch } from "react-redux";
 
 import styles from "./searchbar.module.css";
 
-const SearchBar = ({ setCoordinates, setAddress, address }) => {
+const SearchBar = () => {
+  const coordinates = useSelector(state => state.coordinates);
+  const address = useSelector(state => state.address);
+
+  const dispatch = useDispatch();
+  const updateCoords = latLng => {
+    dispatch({ type: "coordinates/UPDATE", payload: latLng });
+  };
+  const updateAddress = address => {
+    dispatch({ type: "address/UPDATE", payload: { address: address } });
+  };
+
   const handleSelect = async value => {
     const results = await geocodeByAddress(value);
     const latLng = await getLatLng(results[0]);
-    setAddress(value);
-    setCoordinates(latLng);
+    updateAddress(value);
+    updateCoords(latLng);
   };
 
   return (
     <div>
       <PlacesAutocompĺete
         value={address}
-        onChange={setAddress}
+        onChange={updateAddress}
         onSelect={handleSelect}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
