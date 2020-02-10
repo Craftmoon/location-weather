@@ -2,6 +2,9 @@ import React from "react";
 import "./App.css";
 import Map from "./components/map";
 import WeatherInfo from "./components/weatherInfo";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Creators as CoordActions } from "./store/ducks/coordinates";
 
 function App() {
   return (
@@ -20,4 +23,11 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = state => ({
+  coordinates: state.coordinates
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(CoordActions, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,7 +1,9 @@
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
-export const useGetUserCoordinates = ({ setCoordinates, setAddress }) => {
+export const useGetUserCoordinates = () => {
   const googleMapAPIKey = "AIzaSyBX1DZz2mY9XjFTFfPwhdZArN-AqQlt52E";
+  const dispatch = useDispatch();
 
   const getLocation = () => {
     if (navigator.geolocation) {
@@ -13,9 +15,12 @@ export const useGetUserCoordinates = ({ setCoordinates, setAddress }) => {
   };
 
   const showPosition = ({ coords }) => {
-    setCoordinates({
-      lat: coords.latitude,
-      lng: coords.longitude
+    dispatch({
+      type: "coordinates/UPDATE",
+      payload: {
+        lat: coords.latitude,
+        lng: coords.longitude
+      }
     });
 
     reverseGeocodeCoordinates(coords.latitude, coords.longitude);
@@ -26,7 +31,14 @@ export const useGetUserCoordinates = ({ setCoordinates, setAddress }) => {
       `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&sensor=false&key=${googleMapAPIKey}`
     )
       .then(response => response.json())
-      .then(data => setAddress(data.results[0].formatted_address))
+      .then(data =>
+        dispatch({
+          type: "address/UPDATE",
+          payload: {
+            address: data.results[0].formatted_address
+          }
+        })
+      )
       .catch(error => alert(error));
   };
 
