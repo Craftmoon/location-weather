@@ -8,7 +8,6 @@ import { useSelector, useDispatch } from "react-redux";
 import styles from "./searchbar.module.css";
 
 const SearchBar = () => {
-  const coordinates = useSelector(state => state.coordinates);
   const address = useSelector(state => state.address);
 
   const dispatch = useDispatch();
