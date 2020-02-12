@@ -8,17 +8,23 @@ const WeatherInfo = () => {
   const coordinates = useSelector(state => state.coordinates);
   const weather = useSelector(state => state.weather);
 
-  const APICall = `http://api.openweathermap.org/data/2.5/weather?lat=${coordinates.lat}&lon=${coordinates.lng}&appid=${API_KEY}`;
-
-  const setWeatherInfo = weatherInfo => {
-    dispatch({ type: "weather/SET", payload: { weatherInfo } });
+  const setWeatherInfo = (weatherInfo, type) => {
+    dispatch({
+      type: `weather/${
+        type === "weather" ? "SET_CURRENT_WEATHER" : "SET_WEATHER_FORECAST"
+      }`,
+      payload: { weatherInfo }
+    });
   };
 
-  const weatherRequest = () => {
-    fetch(APICall, { method: "GET" })
+  const weatherInfoRequest = type => {
+    fetch(
+      `http://api.openweathermap.org/data/2.5/${type}?lat=${coordinates.lat}&lon=${coordinates.lng}&appid=${API_KEY}`,
+      { method: "GET" }
+    )
       .then(res => res.json())
       .then(data => {
-        setWeatherInfo(data);
+        setWeatherInfo(data, type);
       })
       .catch(error => {
         console.error(error);
@@ -26,16 +32,29 @@ const WeatherInfo = () => {
   };
 
   useMemo(() => {
-    weatherRequest();
+    weatherInfoRequest("weather");
+    weatherInfoRequest("forecast");
   }, [coordinates]);
 
   return (
     <div>
-      {weather.weatherInfo !== undefined ? (
-        <pre>{JSON.stringify(weather.weatherInfo, null, 2)}</pre>
-      ) : (
-        ""
-      )}
+      {console.log(weather)}
+      <div>
+        Current Weather Info
+        {weather.currentWeather !== undefined ? (
+          <pre>{JSON.stringify(weather.currentWeather, null, 2)}</pre>
+        ) : (
+          "undefined"
+        )}
+      </div>
+      <div>
+        Weather Forecast Info
+        {weather.weatherForecast !== undefined ? (
+          <pre>{JSON.stringify(weather.weatherForecast, null, 2)}</pre>
+        ) : (
+          "undefined"
+        )}
+      </div>
     </div>
   );
 };
