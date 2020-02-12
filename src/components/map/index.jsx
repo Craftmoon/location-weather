@@ -2,18 +2,12 @@ import React, { useState } from "react";
 import { useGetUserCoordinates } from "../../state/hooks/useGetUserCoordinates";
 import { GoogleMap, withGoogleMap, Marker } from "react-google-maps";
 import SearchBar from "./searchBar/index";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import styles from "./map.module.css";
 
 const Map = () => {
   const coordinates = useSelector(state => state.coordinates);
-  const address = useSelector(state => state.address);
-
-  const dispatch = useDispatch();
-  const updateCoords = (lat, lng) => {
-    return { type: "coordinates/UPDATE", payload: { lat: lat, lng: lng } };
-  };
 
   useGetUserCoordinates();
 
@@ -22,8 +16,8 @@ const Map = () => {
       defaultZoom={10}
       defaultCenter={{ lat: -27.59691, lng: -48.54958 }}
       center={{
-        lat: coordinates.lat || -27.59691,
-        lng: coordinates.lng || -48.54958
+        lat: coordinates.lat,
+        lng: coordinates.lng
       }}
       defaultOptions={{
         mapTypeControl: false
@@ -42,9 +36,6 @@ const Map = () => {
   return (
     <div>
       <div>google maps here</div>
-      <div>{coordinates.lat}</div>
-      <div>{coordinates.lng}</div>
-      <div>{address}</div>
       <SearchBar />
       <MapWithAMarker
         loadingElement={<div className={styles.map} />}
